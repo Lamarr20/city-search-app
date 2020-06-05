@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import logo from './logo.svg';
-import CitySearch from './CitySearch'
+import CitySearch from './components/CitySearch'
 import './App.css';
 
 class App extends Component {
