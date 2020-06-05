@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-
+import './citySearch.css';
 class CitySearch extends Component {
   constructor() {
     super();
@@ -47,7 +47,7 @@ class CitySearch extends Component {
       defList = <></>;
     } else {
       defList = (
-        <ol>
+        <ol className= "columns">
           {this.state.cities.map((def, index) => (
             <li key={index}>{def}</li>
           ))}
@@ -69,7 +69,7 @@ class CitySearch extends Component {
               </div>
             <input type="submit" value="Submit"/>           
          </form>
-      <h3>{this.state.realCity}</h3>
+      <h3 className = "Pushbelow">{this.state.realCity} Zip Codes</h3>
      {defList}
       </div>
     );

@@ -28,6 +28,17 @@
   color: #61dafb;
 }
 
+.container {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}
+
+.Padding-abc {
+  color: lightcoral;
+  padding-top: 50px;
+  font-family: Arial;
+  text-align: center;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
