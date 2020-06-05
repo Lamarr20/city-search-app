@@ -4,24 +4,24 @@ import axios from "axios";
 class CitySearch extends Component {
   constructor() {
     super();
-    this.state = { city: '', cities: [] };
+    this.state = { city: '', cities: [] };//city and cities declared as emmpty
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event){
-    this.setState({city: event.target.value, value: event.target.value});//value updated on change
+    this.setState({city: event.target.value, value: event.target.value});//value & city updated on change
   }
 
   handleSubmit(event){
-    this.setState({ value: event.target.value, })
+    this.setState({ value: event.target.value, })//update the value = current state
     event.preventDefault()
     this.upperCase()
   }
   upperCase = () => {
     var text = this.state.value;
     var uppercasetext = text.toUpperCase();//To convert Upper Case
-    this.setState({ value: uppercasetext});
+    this.setState({ value: uppercasetext});//value state is capitalize for output sidplay
     this.componentDidMount()
   }
   componentDidMount() {
@@ -29,13 +29,15 @@ class CitySearch extends Component {
     if ( typeof this.state.value == 'string')//only takes in string values
     {
       axios
-        .get('http://ctp-zip-api.herokuapp.com/city/'+ this.state.value.toUpperCase())
+        .get('http://ctp-zip-api.herokuapp.com/city/'+ this.state.value.toUpperCase())//capitalize user input without altering input
         .then((response) => {
           const data = response.data;
           const cities = data;
-          this.setState({ cities });//update cities = data
+          const realCity = this.state.value
+          this.setState({ cities, realCity });//update cities = data
           })
-        .catch((err) => console.log(err));
+        .catch((err) => alert(err + " please type in a city"));
+        
   }
 }
 
@@ -46,8 +48,8 @@ class CitySearch extends Component {
     } else {
       defList = (
         <ol>
-          {this.state.cities.map((def) => (
-            <li>{def}</li>
+          {this.state.cities.map((def, index) => (
+            <li key={index}>{def}</li>
           ))}
         </ol>
       );
@@ -55,7 +57,6 @@ class CitySearch extends Component {
 
     return (
       <div className="city">
-        <h1>city</h1>
         <form onSubmit={this.handleSubmit} >
               <div>
                 <label>
@@ -68,7 +69,7 @@ class CitySearch extends Component {
               </div>
             <input type="submit" value="Submit"/>           
          </form>
-      <h3>{this.state.value}</h3>
+      <h3>{this.state.realCity}</h3>
      {defList}
       </div>
     );
