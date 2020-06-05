@@ -2,43 +2,41 @@ import React, { Component } from "react";
 import axios from "axios";
 
 class CitySearch extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = { city: '', cities: [] };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event){
-    this.setState({value: event.target.value});
+    this.setState({city: event.target.value, value: event.target.value});//value updated on change
   }
 
   handleSubmit(event){
-    event.preventDefault();
+    this.setState({ value: event.target.value, })
+    event.preventDefault()
+    this.upperCase()
+  }
+  upperCase = () => {
+    var text = this.state.value;
+    var uppercasetext = text.toUpperCase();//To convert Upper Case
+    this.setState({ value: uppercasetext});
     this.componentDidMount()
   }
-
   componentDidMount() {
-    const city = this.state.value
-    let bigCity = city//captilize all city input
-    console.log(bigCity)
-    if (city === "NYC")//conditions needs work
+    console.log(this)
+    if ( typeof this.state.value == 'string')//only takes in string values
     {
-      console.log("something happen")
-      const url = `http://ctp-zip-api.herokuapp.com/city/${city}`;    
-    axios
-      .get(url)
-      .then((response) => {
-        const data = response.data;
-        const cities = data;
-        this.setState({ city, cities });//city = user input , cities = all zipcodes
-      })
-      .catch((err) => console.log(err));
+      axios
+        .get('http://ctp-zip-api.herokuapp.com/city/'+ this.state.value.toUpperCase())
+        .then((response) => {
+          const data = response.data;
+          const cities = data;
+          this.setState({ cities });//update cities = data
+          })
+        .catch((err) => console.log(err));
   }
-
-else{
-  console.log("im here now")//needs a display for bad input
-}
 }
 
   render() {
@@ -58,19 +56,19 @@ else{
     return (
       <div className="city">
         <h1>city</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} >
               <div>
                 <label>
                   <input 
                     type="text" 
-                    value={this.state.value} 
+                    value={this.state.city} 
                     onChange={this.handleChange}>
                   </input>
                 </label>
               </div>
             <input type="submit" value="Submit"/>           
          </form>
-      <h3>{this.state.city}</h3>
+      <h3>{this.state.value}</h3>
      {defList}
       </div>
     );
